@@ -1,14 +1,14 @@
 table artist {
   artist_id int [pk, increment]
-  created_at datetime [default: `now()`]
-  modified_at datetime
-  id varchar [not null]
-  name varchar [not null]
+  created_at timestamp [default: `now()`]
+  modified_at timestamp
+  id text [not null]
+  name text [not null]
   popularity int [not null]
-  type varchar [not null]
-  uri varchar [not null]
+  type text [not null]
+  uri text [not null]
   followers int [not null]
-  spotify_url varchar [not null]
+  spotify_url text [not null]
   indexes{
     (artist_id) [pk]
     id [unique]
@@ -17,11 +17,11 @@ table artist {
 
 table artist_image {
   artist_image_id int [pk, increment]
-  created_at datetime [default: `now()`]
-  modified_at datetime
+  created_at timestamp [default: `now()`]
+  modified_at timestamp
   artist_id int [not null, ref: > artist.artist_id]
   height int [not null]
-  url varchar [not null]
+  url text [not null]
   width int [not null]
   indexes{
     (artist_image_id) [pk]
@@ -31,8 +31,8 @@ table artist_image {
 
 table related_artist {
   related_artist_id int [pk, increment]
-  created_at datetime [default: `now()`]
-  modified_at datetime
+  created_at timestamp [default: `now()`]
+  modified_at timestamp
   artist_id int [not null, ref: > artist.artist_id]
   related_id int [not null, ref: > artist.artist_id]
   indexes {
@@ -43,8 +43,8 @@ table related_artist {
 
 table artist_genre {
   artist_genre_id int [pk, increment]
-  created_at datetime [default: `now()`]
-  modified_at datetime
+  created_at timestamp [default: `now()`]
+  modified_at timestamp
   artist_id int [not null, ref: > artist.artist_id]
   genre genre [not null]
   indexes {
@@ -55,18 +55,18 @@ table artist_genre {
 
 table album {
   album_id int [pk, increment]
-  created_at datetime [default: `now()`]
-  modified_at datetime
-  id varchar [not null]
-  album_group varchar [not null]
-  album_type varchar [not null]
-  name varchar [not null]
-  release_date varchar [not null]
-  release_date_precision varchar [not null]
+  created_at timestamp [default: `now()`]
+  modified_at timestamp
+  id text [not null]
+  album_group text [not null]
+  album_type text [not null]
+  name text [not null]
+  release_date text [not null]
+  release_date_precision text [not null]
   total_tracks int [not null]
-  type varchar [not null]
-  uri varchar [not null]
-  spotify_url varchar [not null]
+  type text [not null]
+  uri text [not null]
+  spotify_url text [not null]
   indexes {
     (album_id) [pk]
     id [unique]
@@ -75,8 +75,8 @@ table album {
 
 table album_artist {
   album_artist_id int [pk, increment]
-  created_at datetime [default: `now()`]
-  modified_at datetime
+  created_at timestamp [default: `now()`]
+  modified_at timestamp
   artist_id int [not null, ref: > artist.artist_id]
   album_id int [not null, ref: > album.album_id]
   indexes {
@@ -87,11 +87,11 @@ table album_artist {
 
 table album_image {
   album_image_id int [pk, increment]
-  created_at datetime [default: `now()`]
-  modified_at datetime
+  created_at timestamp [default: `now()`]
+  modified_at timestamp
   album_id int [not null,ref: > album.album_id]
   height int [not null]
-  url varchar [not null]
+  url text [not null]
   width int [not null]
   indexes {
     (album_image_id) [pk]
@@ -101,13 +101,13 @@ table album_image {
 
 table chart_track {
   chart_track_id int [pk, increment]
-  created_at datetime [default: `now()`]
-  modified_at datetime
+  created_at timestamp [default: `now()`]
+  modified_at timestamp
   artist_id int [not null, ref: > artist.artist_id]  
   track_id int [not null, ref: > track.track_id]
   position int [not null]
   streams int [not null]
-  country varchar [not null]
+  country text [not null]
   week_start date [not null]
   week_end date [not null]
   
@@ -115,18 +115,18 @@ table chart_track {
 
 table track {
   track_id int [pk, increment]
-  created_at datetime [default: `now()`]
-  modified_at datetime
+  created_at timestamp [default: `now()`]
+  modified_at timestamp
   duration_ms int [not null]
   explicit boolean [not null]
-  name varchar [not null]
+  name text [not null]
   popularity int [not null]
-  preview_url varchar [not null]
+  preview_url text [not null]
   track_number int [not null]
-  type varchar [not null]
-  uri varchar [not null]
-  spotify_url varchar [not null]
-  id varchar [not null]
+  type text [not null]
+  uri text [not null]
+  spotify_url text [not null]
+  id text [not null]
   indexes {
     (track_id) [pk]
     id [unique]
@@ -135,8 +135,8 @@ table track {
 
 table track_artist {
   track_artist_id int [pk, increment]
-  created_at datetime [default: `now()`]
-  modified_at datetime
+  created_at timestamp [default: `now()`]
+  modified_at timestamp
   track_id int [not null, ref: > track.track_id]
   artist_id int [not null, ref: > artist.artist_id]
   indexes {
@@ -147,8 +147,8 @@ table track_artist {
 
 table track_album {
   track_album_id int [pk, increment]
-  created_at datetime [default: `now()`]
-  modified_at datetime
+  created_at timestamp [default: `now()`]
+  modified_at timestamp
   track_id int [not null, ref: > track.track_id]
   album_id int [not null, ref: > album.album_id]
   disc_number int [not null]
@@ -160,20 +160,20 @@ table track_album {
 
 table track_feature {
   track_feature_id int [pk, increment]
-  created_at datetime [default: `now()`]
-  modified_at datetime
+  created_at timestamp [default: `now()`]
+  modified_at timestamp
   track_id int [not null, ref: > track.track_id]
-  danceability decimal [not null]
-  energy decimal [not null]
+  danceability numeric [not null]
+  energy numeric [not null]
   key int [not null]
-  loudness decimal [not null]
+  loudness numeric [not null]
   mode int [not null]
-  speechiness decimal [not null]
-  acousticness decimal [not null]
-  instrumentalness decimal [not null]
-  liveness decimal [not null]
-  valence decimal [not null]
-  tempo decimal [not null]
+  speechiness numeric [not null]
+  acousticness numeric [not null]
+  instrumentalness numeric [not null]
+  liveness numeric [not null]
+  valence numeric [not null]
+  tempo numeric [not null]
   duration_ms int [not null]
   time_signature int [not null]
   indexes {
@@ -184,35 +184,35 @@ table track_feature {
 
 table track_audio_analysis {
   track_audio_analysis_id int [pk, increment]
-  created_at datetime [default: `now()`]
-  modified_at datetime
+  created_at timestamp [default: `now()`]
+  modified_at timestamp
   track_id int [not null, ref: > track.track_id]
   num_samples int [not null]
-  duration decimal [not null]
-  sample_md5 string [not null]
+  duration numeric [not null]
+  sample_md5 text [not null]
   offset_seconds int [not null]
   window_seconds int [not null]
   analysis_sample_rate int [not null]
   analysis_channels int [not null]
-  end_of_fade_in decimal [not null]
-  start_of_fade_out decimal [not null]
-  loudness decimal [not null]
-  tempo decimal [not null]
-  tempo_confidence decimal [not null]
+  end_of_fade_in numeric [not null]
+  start_of_fade_out numeric [not null]
+  loudness numeric [not null]
+  tempo numeric [not null]
+  tempo_confidence numeric [not null]
   time_signature int [not null]
-  time_signature_confidence decimal [not null]
+  time_signature_confidence numeric [not null]
   key int [not null]
-  key_confidence decimal [not null]
+  key_confidence numeric [not null]
   mode int [not null]
-  mode_confidence decimal [not null]
-  codestring string [not null]
-  code_version decimal [not null]
-  echoprintstring string [not null]
-  echoprint_version decimal [not null]
-  synchstring string [not null]
-  synch_version decimal [not null]
-  rhythmstring string [not null]
-  rhythm_version decimal [not null]
+  mode_confidence numeric [not null]
+  codetext text [not null]
+  code_version numeric [not null]
+  echoprinttext text [not null]
+  echoprint_version numeric [not null]
+  synchtext text [not null]
+  synch_version numeric [not null]
+  rhythmtext text [not null]
+  rhythm_version numeric [not null]
   indexes {
     (track_audio_analysis_id) [pk]
     track_id [unique]
@@ -221,12 +221,12 @@ table track_audio_analysis {
 
 table track_bar {
   track_bar_id int [pk, increment]
-  created_at datetime [default: `now()`]
-  modified_at datetime
+  created_at timestamp [default: `now()`]
+  modified_at timestamp
   track_id int [not null, ref: > track.track_id]
-  start decimal [not null]
-  duration decimal [not null]
-  confidence decimal [not null]
+  start numeric [not null]
+  duration numeric [not null]
+  confidence numeric [not null]
   indexes {
     (track_bar_id) [pk]
     (track_id, start) [unique]
@@ -235,12 +235,12 @@ table track_bar {
 
 table track_beat {
   track_beat_id int [pk, increment]
-  created_at datetime [default: `now()`]
-  modified_at datetime
+  created_at timestamp [default: `now()`]
+  modified_at timestamp
   track_id int [not null, ref: > track.track_id]
-  start decimal [not null]
-  duration decimal [not null]
-  confidence decimal [not null]
+  start numeric [not null]
+  duration numeric [not null]
+  confidence numeric [not null]
   indexes {
     (track_beat_id) [pk]
     (track_id, start) [unique]
@@ -249,12 +249,12 @@ table track_beat {
 
 table track_tatum {
   track_tatum_id int [pk, increment]
-  created_at datetime [default: `now()`]
-  modified_at datetime
+  created_at timestamp [default: `now()`]
+  modified_at timestamp
   track_id int [not null, ref: > track.track_id]
-  start decimal [not null]
-  duration decimal [not null]
-  confidence decimal [not null]
+  start numeric [not null]
+  duration numeric [not null]
+  confidence numeric [not null]
   indexes {
     (track_tatum_id) [pk]
     (track_id, start) [unique]
@@ -263,21 +263,21 @@ table track_tatum {
 
 table track_section {
   track_section_id int [pk, increment]
-  created_at datetime [default: `now()`]
-  modified_at datetime
+  created_at timestamp [default: `now()`]
+  modified_at timestamp
   track_id int [not null, ref: > track.track_id]
-  start decimal [not null]
-  duration decimal [not null]
-  confidence decimal [not null]
-  loudness decimal [not null]
-  tempo decimal [not null]
-  tempo_confidence decimal [not null]
+  start numeric [not null]
+  duration numeric [not null]
+  confidence numeric [not null]
+  loudness numeric [not null]
+  tempo numeric [not null]
+  tempo_confidence numeric [not null]
   key int [not null]
-  key_confidence decimal [not null]
+  key_confidence numeric [not null]
   mode int [not null]
-  mode_confidence decimal [not null]
+  mode_confidence numeric [not null]
   time_signature int [not null]
-  time_signature_confidence decimal [not null]
+  time_signature_confidence numeric [not null]
   indexes {
     (track_section_id) [pk]
     (track_id, start) [unique]
@@ -286,16 +286,16 @@ table track_section {
 
 table track_segment {
   track_segment_id int [pk, increment]
-  created_at datetime [default: `now()`]
-  modified_at datetime
+  created_at timestamp [default: `now()`]
+  modified_at timestamp
   track_id int [not null, ref: > track.track_id]
-  start decimal [not null]
-  duration decimal [not null]
-  confidence decimal [not null]
-  loudness_start decimal [not null]
-  loudness_max_time decimal [not null]
-  loudness_max decimal [not null]
-  loudness_end decimal [not null]
+  start numeric [not null]
+  duration numeric [not null]
+  confidence numeric [not null]
+  loudness_start numeric [not null]
+  loudness_max_time numeric [not null]
+  loudness_max numeric [not null]
+  loudness_end numeric [not null]
   indexes {
     (track_segment_id) [pk]
     (track_id, start) [unique]
@@ -304,10 +304,10 @@ table track_segment {
 
 table track_segment_pitch {
   track_segment_pitch_id int [pk, increment]
-  created_at datetime [default: `now()`]
-  modified_at datetime
+  created_at timestamp [default: `now()`]
+  modified_at timestamp
   track_segment_id int [not null, ref: > track_segment.track_segment_id]   
-  pitch decimal [not null]
+  pitch numeric [not null]
   indexes {
     (track_segment_pitch_id) [pk]
     (track_segment_id, pitch) [unique]
@@ -316,10 +316,10 @@ table track_segment_pitch {
 
 table track_segment_timbre {
   track_segment_timbre_id int [pk, increment]
-  created_at datetime [default: `now()`]
-  modified_at datetime
+  created_at timestamp [default: `now()`]
+  modified_at timestamp
   track_segment_id int [not null, ref: > track_segment.track_segment_id]   
-  timbre decimal [not null]
+  timbre numeric [not null]
   indexes {
     (track_segment_timbre_id) [pk]
     (track_segment_id, timbre) [unique]
