@@ -1,5 +1,5 @@
 table artist {
-  artist_id int [pk, increment]
+  artist_id int [increment]
   created_at timestamp [default: `now()`]
   modified_at timestamp
   id text [not null]
@@ -16,7 +16,7 @@ table artist {
 }
 
 table artist_image {
-  artist_image_id int [pk, increment]
+  artist_image_id int [increment]
   created_at timestamp [default: `now()`]
   modified_at timestamp
   artist_id int [not null, ref: > artist.artist_id]
@@ -25,36 +25,45 @@ table artist_image {
   width int [not null]
   indexes{
     (artist_image_id) [pk]
-    url [unique]
+    (artist_id, height, width)  [unique]
   }
 }
 
 table related_artist {
-  related_artist_id int [pk, increment]
+  related_artist_id int [increment]
   created_at timestamp [default: `now()`]
   modified_at timestamp
   artist_id int [not null, ref: > artist.artist_id]
   related_id int [not null, ref: > artist.artist_id]
   indexes {
-    (related_artist_id) 
+    (related_artist_id) [pk]
     (artist_id, related_id) [unique]
   }
 }
 
 table artist_genre {
-  artist_genre_id int [pk, increment]
+  artist_genre_id int [increment]
   created_at timestamp [default: `now()`]
   modified_at timestamp
   artist_id int [not null, ref: > artist.artist_id]
-  genre genre [not null]
+  genre_id int [not null, ref: > genre.genre_id]
   indexes {
     (artist_genre_id) [pk]
-    (artist_id, genre) [unique]
+    (artist_id, genre_id) [unique]
+  }
+}
+
+table genre {
+  genre_id int [increment]
+  genre genre
+  indexes{
+    (genre_id) [pk]
+    (genre) [unique]
   }
 }
 
 table album {
-  album_id int [pk, increment]
+  album_id int [increment]
   created_at timestamp [default: `now()`]
   modified_at timestamp
   id text [not null]
@@ -74,19 +83,19 @@ table album {
 }
 
 table album_artist {
-  album_artist_id int [pk, increment]
+  album_artist_id int [increment]
   created_at timestamp [default: `now()`]
   modified_at timestamp
   artist_id int [not null, ref: > artist.artist_id]
   album_id int [not null, ref: > album.album_id]
   indexes {
     (album_artist_id) [pk]
-    (artist_id, album_id)
+    (artist_id, album_id) [unique]
   }
 }
 
 table album_image {
-  album_image_id int [pk, increment]
+  album_image_id int [increment]
   created_at timestamp [default: `now()`]
   modified_at timestamp
   album_id int [not null,ref: > album.album_id]
@@ -95,12 +104,12 @@ table album_image {
   width int [not null]
   indexes {
     (album_image_id) [pk]
-    (album_id, url)
+    (album_id, height, width) [unique]
   }
 }
 
 table chart_track {
-  chart_track_id int [pk, increment]
+  chart_track_id int [increment]
   created_at timestamp [default: `now()`]
   modified_at timestamp
   artist_id int [not null, ref: > artist.artist_id]  
@@ -110,11 +119,14 @@ table chart_track {
   country text [not null]
   week_start date [not null]
   week_end date [not null]
-  
+  indexes {
+    (chart_track_id) [pk]
+    (position, country, week_start, week_end) [unique]
+  }
 }
 
 table track {
-  track_id int [pk, increment]
+  track_id int [increment]
   created_at timestamp [default: `now()`]
   modified_at timestamp
   duration_ms int [not null]
@@ -134,7 +146,7 @@ table track {
 }
 
 table track_artist {
-  track_artist_id int [pk, increment]
+  track_artist_id int [increment]
   created_at timestamp [default: `now()`]
   modified_at timestamp
   track_id int [not null, ref: > track.track_id]
@@ -146,7 +158,7 @@ table track_artist {
 }
 
 table track_album {
-  track_album_id int [pk, increment]
+  track_album_id int [increment]
   created_at timestamp [default: `now()`]
   modified_at timestamp
   track_id int [not null, ref: > track.track_id]
@@ -159,7 +171,7 @@ table track_album {
 }
 
 table track_feature {
-  track_feature_id int [pk, increment]
+  track_feature_id int [increment]
   created_at timestamp [default: `now()`]
   modified_at timestamp
   track_id int [not null, ref: > track.track_id]
@@ -183,7 +195,7 @@ table track_feature {
 }
 
 table track_audio_analysis {
-  track_audio_analysis_id int [pk, increment]
+  track_audio_analysis_id int [increment]
   created_at timestamp [default: `now()`]
   modified_at timestamp
   track_id int [not null, ref: > track.track_id]
@@ -220,7 +232,7 @@ table track_audio_analysis {
  }
 
 table track_bar {
-  track_bar_id int [pk, increment]
+  track_bar_id int [increment]
   created_at timestamp [default: `now()`]
   modified_at timestamp
   track_id int [not null, ref: > track.track_id]
@@ -234,7 +246,7 @@ table track_bar {
 }
 
 table track_beat {
-  track_beat_id int [pk, increment]
+  track_beat_id int [increment]
   created_at timestamp [default: `now()`]
   modified_at timestamp
   track_id int [not null, ref: > track.track_id]
@@ -248,7 +260,7 @@ table track_beat {
 }
 
 table track_tatum {
-  track_tatum_id int [pk, increment]
+  track_tatum_id int [increment]
   created_at timestamp [default: `now()`]
   modified_at timestamp
   track_id int [not null, ref: > track.track_id]
@@ -262,7 +274,7 @@ table track_tatum {
 }
 
 table track_section {
-  track_section_id int [pk, increment]
+  track_section_id int [increment]
   created_at timestamp [default: `now()`]
   modified_at timestamp
   track_id int [not null, ref: > track.track_id]
@@ -285,7 +297,7 @@ table track_section {
 }
 
 table track_segment {
-  track_segment_id int [pk, increment]
+  track_segment_id int [increment]
   created_at timestamp [default: `now()`]
   modified_at timestamp
   track_id int [not null, ref: > track.track_id]
@@ -303,7 +315,7 @@ table track_segment {
 }
 
 table track_segment_pitch {
-  track_segment_pitch_id int [pk, increment]
+  track_segment_pitch_id int [increment]
   created_at timestamp [default: `now()`]
   modified_at timestamp
   track_segment_id int [not null, ref: > track_segment.track_segment_id]   
@@ -315,7 +327,7 @@ table track_segment_pitch {
 }
 
 table track_segment_timbre {
-  track_segment_timbre_id int [pk, increment]
+  track_segment_timbre_id int [increment]
   created_at timestamp [default: `now()`]
   modified_at timestamp
   track_segment_id int [not null, ref: > track_segment.track_segment_id]   
